@@ -7,13 +7,18 @@ import BusinessCenterIcon from "@mui/icons-material/BusinessCenter"
 import OndemandVideoSharpIcon from "@mui/icons-material/OndemandVideoSharp"
 import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRounded"
 const lnkimg = "https://ucarecdn.com/98c6d20d-03a4-4f43-92e9-c4161ef65673/linkedinlogopng1840.png";
-const heroimg = "https://ucarecdn.com/a66a2b68-aa8c-443d-8ed7-87d78a713fc3/willowygirlholdingbookssuitcaseandletterforeffectivetimemanagement.png";
-import {signIn,signOut,getProviders} from "next-auth/react"
+const heroimg = "https://ucarecdn.com/28ae40ee-b501-4530-ac66-8c17ad8dc27f/bonbonprojectmanagementwithmanyhands.png";
+import {signIn,signOut,getProviders, useSession} from "next-auth/react"
 
 function Home({providers}) {
+
+    const {data:session} = useSession();
+
+
+
   return (
-    <div className='relative space-y-10'>
-        <header className='flex justify-around items-center py-4'>
+    <div className='relative space-y-10 flex flex-col items-center justify-center'>
+        <header className='flex justify-around items-center py-4 w-full mb-12 '>
             <div className='relative w-36 h-10'>
                 <Image src={lnkimg} layout="fill" objectFit="contain"/>
             </div>
@@ -29,13 +34,12 @@ function Home({providers}) {
                 <div key={provider.name}>
                 <div className="pl-4">
                 <button 
-                onClick={ () => signIn (provider.id, {callbackUrl:"/"})}
+                onClick={ () => session ? signOut() :  signIn (provider.id, {callbackUrl:"/"})}
                 className="text-blue-700 font-semibold rounded-full border border-blue-700
                 px-5 py-1.5 transition-all  hover:bg-blue-100">
-                Signin
+                { session ? "Signout" : "Signin"}
                 </button>
                 </div>
-                <button onClick={signOut}> out</button>
                 </div>
                 ))}
 
@@ -43,33 +47,37 @@ function Home({providers}) {
 
             </div>
         </header>
-        <main className=" flex flex-col xl:flex-row items-center 
-        max-w-screen-lg mx-auto">
-            <div className="space-y-6 xl:space-y-10">
-                <h1 className="text-amber-800/80 md:text-5xl text-3xl max-w-xl !leading-snug pl-4 xl:pl-0">
+        
+        <main className=" flex w-full items-center justify-center xl:px-48 ">
+            <div className="flex items-center justify-center xl:justify-between w-full ">
+                <div className="space-y-6 xl:space-y-10 mt-12 w-full flex flex-col xl:items-center  items-start justify-center">
+                    <div className="w-full flex xl:items-start  items-center justify-center 2xl:pl-36">
+                <h1 className="text-amber-800/80 lg:text-5xl md:text-4xl xl:px-2 px-6 text-3xl !leading-snug ">
                     Welcome to your professional Community
                 </h1>
-                <div className="space-y-4">
-                    <div className="intent">
+                    </div>
+                <div className="space-y-4 flex flex-col xl:items-center items-start justify-center w-full">
+                    <div className="intent w-full">
                         <h2 className="text-xl"> Search for greatness</h2>
                         <ArrowForwardIosRoundedIcon className="text-gray-700"/>
                     </div>
-                    <div className="intent">
+                    <div className="intent w-full">
                         <h2 className="text-xl">Find a person you know</h2>
                         <ArrowForwardIosRoundedIcon className="text-gray-700"/>
                     </div>
-                    <div className="intent">
+                    <div className="intent w-full">
                         <h2 className="text-xl"> Learn new skill</h2>
                         <ArrowForwardIosRoundedIcon className="text-gray-700"/>
                     </div>
                 </div>
                 </div>
-                <div className='relative hidden lg:block xl:absolute lg:w-80 lg:h-80 xl:w-[650px] xl:h-[500px] top-14 right-5'>
-                    <Image src={heroimg} objectFit="contain" layout="fill" priority/>
-
+                <div className='w-full xl:inline-flex hidden items-center justify-center'>
+                    <img src={heroimg} className="w-[500px] h-[500px] object-fit object-center hidden xl:inline " />
                 </div>
+       </div>
         </main>
-    </div>
+            </div>
+            
   );
 }
 
