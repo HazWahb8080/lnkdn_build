@@ -12,7 +12,7 @@ export async function middleware(req) {
         });
         const url = req.nextUrl.clone()
         url.pathname = "/home"
-        if (!session) return NextResponse.redirect(url);
+        if (!session) return NextResponse.redirect(url); //http://localhost:3001/home
     }
 
 }
